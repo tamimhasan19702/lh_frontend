@@ -1,8 +1,18 @@
 /** @format */
 
+// src/store/features/characters/characterSlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { client } from "@/utils/apolloClient";
-import { GET_CHARACTERS } from "@/hooks/useRickAndMorty";
+import axios from "axios";
+
+export const fetchCharacters = createAsyncThunk(
+  "characters/fetchCharacters",
+  async (page: number = 1) => {
+    const response = await axios.get(
+      `https://rickandmortyapi.com/api/character?page= ${page}`
+    );
+    return response.data;
+  }
+);
 
 interface CharacterState {
   list: any[];
@@ -21,23 +31,6 @@ const initialState: CharacterState = {
   totalPages: 0,
   hasNextPage: false,
 };
-
-export const fetchCharacters = createAsyncThunk(
-  "characters/fetchCharacters",
-  async (page: number = 1, thunkAPI) => {
-    try {
-      const { data } = await client.query({
-        query: GET_CHARACTERS,
-        variables: { page },
-        fetchPolicy: "network-only",
-      });
-
-      return data.characters;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
 
 const characterSlice = createSlice({
   name: "characters",
@@ -58,7 +51,7 @@ const characterSlice = createSlice({
       })
       .addCase(fetchCharacters.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.error.message || "Failed to fetch characters";
       });
   },
 });
