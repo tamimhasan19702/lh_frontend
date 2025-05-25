@@ -1,3 +1,5 @@
+/** @format */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,7 +17,89 @@
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #191d29;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", "sans-serif";
+}
+
+main {
+  background: url("../utils/images/Backgraund.png") no-repeat top center;
+  background-size: contain;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", "sans-serif";
+}
+
+.hero-class {
+  background: linear-gradient(100deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    radial-gradient(
+      90% circle at center,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0)
+    );
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", "sans-serif";
+}
+
+.bg-hero-gradient {
+  background: linear-gradient(90deg, #9dfe00 0%, #14d9e5 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #9dfe00, #14d9e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glow-button {
+  box-shadow: 0 0 15px #14d9e5, 0 0 30px #9dfe00;
+}
+
+.bg-gradient {
+  background: linear-gradient(90deg, #9dfe00 0%, #14d9e5 100%);
+}
+
+@keyframes pulseSlow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 4s ease-in-out infinite;
+}
+
+/* src/app/globals.css or styles/fonts.css */
+@font-face {
+  font-family: "CustomFont";
+  src: url("/utils/tt_travels/TT Travels Trial Black Italic.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CustomFont";
+  src: url("/fonts/CustomFont-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CustomFont";
+  src: url("/fonts/CustomFont-Italic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
 }
