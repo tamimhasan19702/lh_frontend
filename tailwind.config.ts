@@ -19,8 +19,10 @@ export default {
       colors: {
         gradient: {
           start: "#9dfe00",
-          end: "#14d9e5",
+          end: "#13d9e5",
         },
+        blue: "#13d9e5",
+        green: "#9dfe00",
       },
       animation: {
         "pulse-slow": "pulseSlow 4s ease-in-out infinite",

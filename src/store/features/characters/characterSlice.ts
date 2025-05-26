@@ -16,16 +16,20 @@ export const fetchCharacters = createAsyncThunk(
 export const fetchCharacterById = createAsyncThunk(
   "characters/fetchCharacterById",
   async (id: number) => {
-    const response = await axios.get(
-      `https://rickandmortyapi.com/api/character/ ${id}`
-    );
-    return response.data;
+    try {
+      const response = await axios.get(
+        `https://rickandmortyapi.com/api/character/ ${id}`
+      );
+      return response.data;
+    } catch (error: any) {
+      throw new Error("Character not found");
+    }
   }
 );
 
 export interface CharacterState {
   list: Character[];
-  selectedCharacter: any | null;
+  selectedCharacter: Character | null;
   loading: boolean;
   error: string | null;
   currentPage: number;
@@ -35,7 +39,7 @@ export interface CharacterState {
   image: string;
 }
 
-interface Character {
+export interface Character {
   id: number;
   name: string;
   status: string;
@@ -64,6 +68,8 @@ const initialState: CharacterState = {
   currentPage: 1,
   totalPages: 0,
   hasNextPage: false,
+  name: "",
+  image: "",
 };
 
 const characterSlice = createSlice({
@@ -87,6 +93,20 @@ const characterSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to fetch characters";
       });
+
+    builder.addCase(fetchCharacterById.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchCharacterById.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.selectedCharacter = action.payload;
+    });
+    builder.addCase(fetchCharacterById.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to fetch character";
+    });
   },
 });
 

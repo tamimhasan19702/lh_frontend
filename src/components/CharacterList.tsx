@@ -6,7 +6,10 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCharacters } from "@/store/features/characters/characterSlice";
 import type { AppDispatch } from "@/store";
-import { CharacterState } from "@/store/features/characters/characterSlice";
+import {
+  CharacterState,
+  Character,
+} from "@/store/features/characters/characterSlice";
 import Link from "next/link";
 
 import CharacterCard from "./CharacterCard";

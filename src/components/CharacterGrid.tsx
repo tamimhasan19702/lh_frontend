@@ -32,18 +32,18 @@ export default function CharacterGrid() {
   return (
     <div className="container mx-auto p-6">
       <div className="flex  flex-row justify-between items-center mb-4">
-        <h2 className=" text-[40px] md:text-[40px] font-bold text-[#13d9e5] md:text-2xl md:mb-4 mb-2">
+        <h2 className=" text-[40px] md:text-[40px] font-bold text-blue md:text-2xl md:mb-4 mb-2">
           The Cast
         </h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6 justify-center items-center">
         {list.map((char) => (
-          <CharacterCard key={char.name} char={char} />
+          <CharacterCard key={char.id} char={{ ...char }} />
         ))}
 
         {loading && (
-          <p className="text-center flex-none w-full col-span-4">
+          <p className="text-center flex-none w-full col-span-4 text-white">
             Loading more characters...
           </p>
         )}

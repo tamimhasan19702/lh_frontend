@@ -1,24 +1,45 @@
 /** @format */
-
-// src/app/characters/[id]/page.tsx
 "use client";
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCharacterById } from "@/store/features/characters/characterSlice";
 import Header from "@/components/header";
+import { Heart, Globe, User } from "lucide-react";
+import { div } from "framer-motion/client";
 
 interface RootState {
   characters: {
-    selectedCharacter: any;
+    selectedCharacter: Character | null;
     loading: boolean;
     error: string | null;
   };
 }
 
+export interface Character {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  image: string;
+  episode: string[];
+  url: string;
+  created: string;
+}
+
 export default function CharacterDetailPage(props: any) {
   const dispatch = useDispatch();
-  const params = React.use(props.params);
+  const params = React.use(props.params); // 👈 Unwrap Promise for dynamic route
   const id = parseInt(params.id, 10);
 
   const { selectedCharacter, loading, error } = useSelector(
@@ -31,73 +52,91 @@ export default function CharacterDetailPage(props: any) {
     }
   }, [dispatch, id]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!selectedCharacter) return <p>No character found</p>;
+  if (loading) return <p className="text-center p-6">Loading character...</p>;
+  if (error) return <p className="text-red-500 text-center p-6">{error}</p>;
+  if (!selectedCharacter)
+    return <p className="text-center p-6">Character not found</p>;
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen  text-white font-sans">
       <Header />
       <section className="container mx-auto p-6">
-        <div className="bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
-          {/* Character Image */}
-          <div className="md:w-1/3 p-6 flex justify-center">
-            <img
-              src={selectedCharacter.image}
-              alt={selectedCharacter.name}
-              className="w-full h-auto max-w-xs rounded-md object-cover"
-            />
-          </div>
-
-          {/* Character Details */}
-          <div className="md:w-2/3 p-6">
-            <h1 className="text-4xl font-bold text-green-500 mb-4">
+        <div className="flex flex-col lg:flex-row items-start gap-10">
+          <div className="flex flex-col items-center justify-center md:items-center w-1/2 ">
+            <h1 className="text-[30px] font-[600] text-cyan-400 mb-4">
               {selectedCharacter.name}
             </h1>
+            <div className="rounded-md overflow-hidden p-10 bg-[#ffffff15] ">
+              <img
+                src={selectedCharacter.image}
+                alt={selectedCharacter.name}
+                className="w-60 h-60 object-cover rounded-md "
+              />
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
-              <div>
-                <p>
-                  <strong>Status:</strong> {selectedCharacter.status}
-                </p>
-                <p>
-                  <strong>Species:</strong> {selectedCharacter.species}
-                </p>
-                <p>
-                  <strong>Type:</strong> {selectedCharacter.type || "N/A"}
-                </p>
-                <p>
-                  <strong>Gender:</strong> {selectedCharacter.gender}
-                </p>
+            <h1
+              className="text-[80px] font-extrabold text-transparent stroke-cyan-900/20 absolute left-0 top-1/2 -translate-y-1/2 rotate-90 tracking-wider select-none"
+              style={{
+                WebkitTextStroke: "1px #13dae553",
+              }}>
+              {selectedCharacter.name}
+            </h1>
+          </div>
+
+          <div className="flex-1 w-1/2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start space-x-3">
+                <Heart size={24} color="#00FF00" className="mt-1" />
+                <div>
+                  <p className="text-[15px] text-green-400">Status</p>
+                  <p className="text-[25px] font-bold">
+                    {selectedCharacter.status}
+                  </p>
+                </div>
               </div>
+
+              <div className="bg-[#ffffff15] rounded-lg p-4 flex justify-start items-start space-x-3">
+                <Globe size={24} color="#00FF00" className="mt-1" />
+                <div>
+                  <p className="text-[15px] text-green-400">Species</p>
+                  <p className="text-[25px] font-bold">
+                    {selectedCharacter.species}
+                  </p>
+                </div>
+              </div>
+              <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-coljustify-start items-start space-x-3">
+                <User size={24} color="#00FF00" className="mt-1" />
+                <div>
+                  <p className="text-[15px] text-green-400">Gender</p>
+                  <p className="text-[25px] font-bold">
+                    {selectedCharacter.gender}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Origin Section */}
+            <div className="bg-[#ffffff15] rounded-lg p-4 flex justify-start items-start space-x-3 mb-4">
+              <Globe size={24} color="#00FF00" className="mt-1" />
               <div>
-                <p>
-                  <strong>Origin:</strong>{" "}
+                <p className="text-sm text-green-400">Origin</p>
+                <p className="text-xl font-bold">
                   {selectedCharacter.origin?.name || "Unknown"}
                 </p>
-                <p>
-                  <strong>Location:</strong>{" "}
+              </div>
+            </div>
+
+            {/* Last Known Location Section */}
+            <div className="bg-[#ffffff15] rounded-lg p-4 flex items-center space-x-3 mb-4">
+              <Globe size={24} color="#00FF00" />
+              <div>
+                <p className="text-sm text-green-400">Last Known Location</p>
+                <p className="text-xl font-bold">
                   {selectedCharacter.location?.name || "Unknown"}
-                </p>
-                <p>
-                  <strong>Total Episodes:</strong>{" "}
-                  {selectedCharacter.episode.length}
-                </p>
-                <p>
-                  <strong>Created:</strong>{" "}
-                  {new Date(selectedCharacter.created).toLocaleDateString()}
                 </p>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Raw JSON Output (Optional) */}
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold mb-2">Raw Data:</h2>
-          <pre className="bg-gray-900 text-sm text-gray-300 p-4 rounded overflow-x-auto">
-            {JSON.stringify(selectedCharacter, null, 2)}
-          </pre>
         </div>
       </section>
     </main>
