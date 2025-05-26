@@ -5,11 +5,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCharacters } from "@/store/features/characters/characterSlice";
+import type { AppDispatch } from "@/store";
+import { CharacterState } from "@/store/features/characters/characterSlice";
 
 export default function CharacterList() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { list, loading, error, hasNextPage, currentPage } = useSelector(
-    (state: any) => state.characters
+    (state: { characters: CharacterState }) => state.characters
   );
 
   useEffect(() => {
