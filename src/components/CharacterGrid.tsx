@@ -32,12 +32,12 @@ export default function CharacterGrid() {
   return (
     <div className="container mx-auto p-6">
       <div className="flex  flex-row justify-between items-center mb-4">
-        <h2 className=" text-[14px] md:text-[20px] font-light text-white md:text-2xl md:mb-0">
-          Meet The Cast
+        <h2 className=" text-[40px] md:text-[40px] font-bold text-[#13d9e5] md:text-2xl md:mb-4 mb-2">
+          The Cast
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 justify-center items-center">
         {list.map((char) => (
           <CharacterCard key={char.name} char={char} />
         ))}
@@ -49,7 +49,7 @@ export default function CharacterGrid() {
         )}
       </div>
       {hasNextPage && !loading && (
-        <div className="flex justify-center mt-2">
+        <div className="flex justify-center mt-6">
           <button
             type="button"
             onClick={loadMore}

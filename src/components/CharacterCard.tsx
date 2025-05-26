@@ -2,9 +2,7 @@
 
 "use client";
 
-import Image from "next/image";
 import { CharacterState } from "@/store/features/characters/characterSlice";
-import { div } from "framer-motion/client";
 
 interface CharacterCardProps {
   char: CharacterState;
@@ -14,7 +12,7 @@ export default function CharacterCard({ char }: CharacterCardProps) {
   return (
     <div
       key={char.name}
-      className="flex-none w-52 sm:w-60 bg-[#ffffff15] rounded-[8px] overflow-hidden relative shadow-md transition-transform transform border-none  border-gradient "
+      className="flex-none w-full md:w-52 sm:w-60 bg-[#ffffff15] rounded-[8px] overflow-hidden relative shadow-md transition-transform transform border-none  border-gradient "
       style={{
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",

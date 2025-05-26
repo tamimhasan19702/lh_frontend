@@ -13,13 +13,26 @@ export const fetchCharacters = createAsyncThunk(
   }
 );
 
+export const fetchCharacterById = createAsyncThunk(
+  "characters/fetchCharacterById",
+  async (id: number) => {
+    const response = await axios.get(
+      `https://rickandmortyapi.com/api/character/ ${id}`
+    );
+    return response.data;
+  }
+);
+
 export interface CharacterState {
   list: Character[];
+  selectedCharacter: any | null;
   loading: boolean;
   error: string | null;
   currentPage: number;
   totalPages: number;
   hasNextPage: boolean;
+  name: string;
+  image: string;
 }
 
 interface Character {
@@ -45,6 +58,7 @@ interface Character {
 
 const initialState: CharacterState = {
   list: [],
+  selectedCharacter: null,
   loading: false,
   error: null,
   currentPage: 1,
