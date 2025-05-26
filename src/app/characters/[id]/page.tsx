@@ -3,9 +3,19 @@
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCharacterById } from "@/store/features/characters/characterSlice";
+import {
+  fetchCharacterById,
+  fetchEpisodeDetails,
+} from "@/store/features/characters/characterSlice";
 import Header from "@/components/header";
-import { Heart, Globe, User } from "lucide-react";
+import {
+  Heart,
+  Globe,
+  User,
+  Edit2Icon,
+  MapIcon,
+  FileArchiveIcon,
+} from "lucide-react";
 import { div } from "framer-motion/client";
 
 interface RootState {
@@ -39,10 +49,9 @@ export interface Character {
 
 export default function CharacterDetailPage(props: any) {
   const dispatch = useDispatch();
-  const params = React.use(props.params); // 👈 Unwrap Promise for dynamic route
-  const id = parseInt(params.id, 10);
+  const id = parseInt(props.params.id, 10);
 
-  const { selectedCharacter, loading, error } = useSelector(
+  const { selectedCharacter, loading, error, episodeDetails } = useSelector(
     (state: RootState) => state.characters
   );
 
@@ -56,6 +65,12 @@ export default function CharacterDetailPage(props: any) {
   if (error) return <p className="text-red-500 text-center p-6">{error}</p>;
   if (!selectedCharacter)
     return <p className="text-center p-6">Character not found</p>;
+
+  useEffect(() => {
+    if (selectedCharacter?.episode) {
+      dispatch(fetchEpisodeDetails(selectedCharacter.episode));
+    }
+  }, [dispatch, selectedCharacter?.episode]);
 
   return (
     <main className="min-h-screen  text-white font-sans">
@@ -85,9 +100,9 @@ export default function CharacterDetailPage(props: any) {
 
           <div className="flex-1 w-1/2">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start space-x-3">
+              <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start ">
                 <Heart size={24} color="#00FF00" className="mt-1" />
-                <div>
+                <div className="p-0 mt-2">
                   <p className="text-[15px] text-green-400">Status</p>
                   <p className="text-[25px] font-bold">
                     {selectedCharacter.status}
@@ -95,18 +110,18 @@ export default function CharacterDetailPage(props: any) {
                 </div>
               </div>
 
-              <div className="bg-[#ffffff15] rounded-lg p-4 flex justify-start items-start space-x-3">
+              <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start">
                 <Globe size={24} color="#00FF00" className="mt-1" />
-                <div>
+                <div className="p-0 mt-2">
                   <p className="text-[15px] text-green-400">Species</p>
                   <p className="text-[25px] font-bold">
                     {selectedCharacter.species}
                   </p>
                 </div>
               </div>
-              <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-coljustify-start items-start space-x-3">
+              <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start">
                 <User size={24} color="#00FF00" className="mt-1" />
-                <div>
+                <div className="p-0 mt-2">
                   <p className="text-[15px] text-green-400">Gender</p>
                   <p className="text-[25px] font-bold">
                     {selectedCharacter.gender}
@@ -116,24 +131,49 @@ export default function CharacterDetailPage(props: any) {
             </div>
 
             {/* Origin Section */}
-            <div className="bg-[#ffffff15] rounded-lg p-4 flex justify-start items-start space-x-3 mb-4">
+            <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start mb-4">
               <Globe size={24} color="#00FF00" className="mt-1" />
-              <div>
+              <div className="p-0 mt-2 w-full mx-w-full">
                 <p className="text-sm text-green-400">Origin</p>
-                <p className="text-xl font-bold">
-                  {selectedCharacter.origin?.name || "Unknown"}
-                </p>
+                <div className="flex w-full mx-w-full justify-between">
+                  <p className="text-xl font-bold w-full">
+                    {selectedCharacter.origin?.name || "Unknown"}
+                  </p>
+                  <Edit2Icon className="w-[10%]" />
+                </div>
               </div>
             </div>
-
-            {/* Last Known Location Section */}
-            <div className="bg-[#ffffff15] rounded-lg p-4 flex items-center space-x-3 mb-4">
-              <Globe size={24} color="#00FF00" />
-              <div>
+            <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start mb-4">
+              <MapIcon size={24} color="#00FF00" className="mt-1" />
+              <div className="p-0 mt-2 w-full mx-w-full">
                 <p className="text-sm text-green-400">Last Known Location</p>
-                <p className="text-xl font-bold">
-                  {selectedCharacter.location?.name || "Unknown"}
+                <div className="flex w-full mx-w-full justify-between">
+                  <p className="text-xl font-bold w-full">
+                    {selectedCharacter.location?.name || "Unknown"}
+                  </p>
+                  <Edit2Icon className="w-[10%]" />
+                </div>
+              </div>
+            </div>
+            <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start mb-4">
+              <FileArchiveIcon size={24} color="#00FF00" className="mt-1" />
+              <div className="p-0 mt-2 w-full mx-w-full">
+                <p className="text-sm text-green-400">
+                  Episodes ({selectedCharacter.episode.length})
                 </p>
+                <div className="flex w-full mx-w-full justify-between">
+                  <div className="overflow-y-auto max-h-[200px] w-full">
+                    <ul>
+                      {episodeDetails.map(
+                        (episodeName: string, index: number) => (
+                          <li key={index} className="text-xl font-bold w-full">
+                            {episodeName}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

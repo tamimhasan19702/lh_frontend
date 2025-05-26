@@ -27,17 +27,15 @@ export const fetchCharacterById = createAsyncThunk(
   }
 );
 
-export interface CharacterState {
-  list: Character[];
-  selectedCharacter: Character | null;
-  loading: boolean;
-  error: string | null;
-  currentPage: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  name: string;
-  image: string;
-}
+export const fetchEpisodeDetails = createAsyncThunk(
+  "characters/fetchEpisodeDetails",
+  async (episodeUrls: string[]) => {
+    const episodePromises = episodeUrls.map((url) =>
+      axios.get(url).then((response) => response.data.name)
+    );
+    return Promise.all(episodePromises);
+  }
+);
 
 export interface Character {
   id: number;
@@ -60,6 +58,17 @@ export interface Character {
   created: string;
 }
 
+export interface CharacterState {
+  list: Character[];
+  selectedCharacter: Character | null;
+  loading: boolean;
+  error: string | null;
+  currentPage: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  episodeDetails: string[];
+}
+
 const initialState: CharacterState = {
   list: [],
   selectedCharacter: null,
@@ -68,8 +77,7 @@ const initialState: CharacterState = {
   currentPage: 1,
   totalPages: 0,
   hasNextPage: false,
-  name: "",
-  image: "",
+  episodeDetails: [],
 };
 
 const characterSlice = createSlice({
@@ -83,6 +91,11 @@ const characterSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCharacters.fulfilled, (state, action) => {
+        if (!action.payload || !action.payload.results) {
+          state.error = "Invalid response from API";
+          return;
+        }
+
         state.loading = false;
         state.list = [...state.list, ...action.payload.results];
         state.currentPage = action.payload.info.page;
@@ -94,18 +107,23 @@ const characterSlice = createSlice({
         state.error = action.error.message || "Failed to fetch characters";
       });
 
-    builder.addCase(fetchCharacterById.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(fetchCharacterById.fulfilled, (state, action) => {
-      state.loading = false;
-      state.error = null;
-      state.selectedCharacter = action.payload;
-    });
-    builder.addCase(fetchCharacterById.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || "Failed to fetch character";
+    builder
+      .addCase(fetchCharacterById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCharacterById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.selectedCharacter = action.payload;
+      })
+      .addCase(fetchCharacterById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch character";
+      });
+
+    builder.addCase(fetchEpisodeDetails.fulfilled, (state, action) => {
+      state.episodeDetails = action.payload;
     });
   },
 });
