@@ -10,6 +10,9 @@ export default {
   ],
   theme: {
     extend: {
+      clipPath: {
+        "card-angled": "polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%)",
+      },
       fontFamily: {
         sans: ["Montserrat", "sans-serif"],
       },

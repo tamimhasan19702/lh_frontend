@@ -17,7 +17,7 @@ const Hero = () => {
         <Image
           src={Bubble}
           alt="Bubble Effect"
-          className="w-[100px] md:w-[300px] h-full opacity-75"
+          className="w-[100px] md:w-[250px] h-full opacity-75"
         />
       </div>
 

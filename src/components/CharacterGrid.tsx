@@ -7,13 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCharacters } from "@/store/features/characters/characterSlice";
 import type { AppDispatch } from "@/store";
 import { CharacterState } from "@/store/features/characters/characterSlice";
-import Link from "next/link";
-import Image from "next/image";
 import CharacterCard from "./CharacterCard";
 
-export default function CharacterList() {
+export default function CharacterGrid() {
   const dispatch = useDispatch<AppDispatch>();
-  const { list, loading, error, hasNextPage } = useSelector(
+  const { list, loading, error, hasNextPage, currentPage } = useSelector(
     (state: { characters: CharacterState }) => state.characters
   );
 
@@ -23,6 +21,12 @@ export default function CharacterList() {
     }
   }, [dispatch, list.length]);
 
+  const loadMore = () => {
+    if (!loading && hasNextPage) {
+      dispatch(fetchCharacters(currentPage + 1));
+    }
+  };
+
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
   return (
@@ -31,28 +35,29 @@ export default function CharacterList() {
         <h2 className=" text-[14px] md:text-[20px] font-light text-white md:text-2xl md:mb-0">
           Meet The Cast
         </h2>
-        {hasNextPage && !loading && (
-          <Link
-            href="/characters"
-            className="border-2 text-[14px] md:text-[17px] border-green-500 text-white px-6 py-2  rounded ">
-            View All
-          </Link>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+        {list.map((char) => (
+          <CharacterCard key={char.name} char={char} />
+        ))}
+
+        {loading && (
+          <p className="text-center flex-none w-full col-span-4">
+            Loading more characters...
+          </p>
         )}
       </div>
-
-      <div className="relative overflow-x-auto hide-scrollbar touch-auto ">
-        <div className="flex gap-6 p-4">
-          {list.map((char) => (
-            <CharacterCard key={char.id} char={char} />
-          ))}
-
-          {loading && (
-            <p className="text-center flex-none w-full">
-              Loading more characters...
-            </p>
-          )}
+      {hasNextPage && !loading && (
+        <div className="flex justify-center mt-2">
+          <button
+            type="button"
+            onClick={loadMore}
+            className="border-2 text-[14px] md:text-[20px] border-green-500 text-white px-6 py-2  rounded ">
+            Load More
+          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 }

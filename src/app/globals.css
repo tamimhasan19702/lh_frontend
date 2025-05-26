@@ -28,7 +28,7 @@ body {
 
 main {
   background: url("../utils/images/Backgraund.png") no-repeat top center;
-  background-size: contain;
+  background-size: cover;
   margin: 0;
   padding: 0;
   font-family: "Montserrat", "sans-serif";
@@ -74,4 +74,27 @@ main {
 
 .bg-gradient {
   background: linear-gradient(90deg, #9dfe00 0%, #14d9e5 100%);
+}
+
+/* Add to globals.css */
+.character-card:hover {
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.border-gradient {
+  border-image: linear-gradient(to right, #9dfe00, #14d9e5);
+  border-image-slice: 2;
+  border-width: 2px;
+}
+
+/* Hide horizontal scrollbar while allowing scroll */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
