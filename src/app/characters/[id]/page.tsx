@@ -1,12 +1,10 @@
 /** @format */
+
 "use client";
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCharacterById,
-  fetchEpisodeDetails,
-} from "@/store/features/characters/characterSlice";
+import { fetchCharacterById } from "@/store/features/characters/characterSlice";
 import Header from "@/components/header";
 import {
   Heart,
@@ -16,7 +14,6 @@ import {
   MapIcon,
   FileArchiveIcon,
 } from "lucide-react";
-import { div } from "framer-motion/client";
 
 interface RootState {
   characters: {
@@ -45,13 +42,15 @@ export interface Character {
   episode: string[];
   url: string;
   created: string;
+  episodeNames: string[]; // New field for episode names
 }
 
 export default function CharacterDetailPage(props: any) {
   const dispatch = useDispatch();
-  const id = parseInt(props.params.id, 10);
+  const params = React.use(props.params); // Unwrap dynamic route params
+  const id = parseInt(params.id, 10);
 
-  const { selectedCharacter, loading, error, episodeDetails } = useSelector(
+  const { selectedCharacter, loading, error } = useSelector(
     (state: RootState) => state.characters
   );
 
@@ -66,14 +65,8 @@ export default function CharacterDetailPage(props: any) {
   if (!selectedCharacter)
     return <p className="text-center p-6">Character not found</p>;
 
-  useEffect(() => {
-    if (selectedCharacter?.episode) {
-      dispatch(fetchEpisodeDetails(selectedCharacter.episode));
-    }
-  }, [dispatch, selectedCharacter?.episode]);
-
   return (
-    <main className="min-h-screen  text-white font-sans">
+    <main className="min-h-screen text-white font-sans">
       <Header />
       <section className="container mx-auto p-6">
         <div className="flex flex-col lg:flex-row items-start gap-10">
@@ -155,6 +148,7 @@ export default function CharacterDetailPage(props: any) {
                 </div>
               </div>
             </div>
+
             <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start mb-4">
               <FileArchiveIcon size={24} color="#00FF00" className="mt-1" />
               <div className="p-0 mt-2 w-full mx-w-full">
@@ -163,15 +157,14 @@ export default function CharacterDetailPage(props: any) {
                 </p>
                 <div className="flex w-full mx-w-full justify-between">
                   <div className="overflow-y-auto max-h-[200px] w-full">
-                    <ul>
-                      {episodeDetails.map(
-                        (episodeName: string, index: number) => (
-                          <li key={index} className="text-xl font-bold w-full">
-                            {episodeName}
-                          </li>
-                        )
-                      )}
+                    <ul className="overflow-y-auto max-h-[200px] w-full epi-scroll">
+                      {selectedCharacter.episodeNames?.map((name, index) => (
+                        <li key={index} className="text-xl font-bold mb-1">
+                          {name}
+                        </li>
+                      ))}
                     </ul>
+                    
                   </div>
                 </div>
               </div>

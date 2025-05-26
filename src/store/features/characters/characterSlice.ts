@@ -20,7 +20,17 @@ export const fetchCharacterById = createAsyncThunk(
       const response = await axios.get(
         `https://rickandmortyapi.com/api/character/ ${id}`
       );
-      return response.data;
+
+      // Fetch episode details concurrently
+      const episodePromises = response.data.episode.map((url: string) =>
+        axios.get(url).then((res) => res.data.name)
+      );
+      const episodeNames = await Promise.all(episodePromises);
+
+      return {
+        ...response.data,
+        episodeNames,
+      };
     } catch (error: any) {
       throw new Error("Character not found");
     }
@@ -91,11 +101,6 @@ const characterSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCharacters.fulfilled, (state, action) => {
-        if (!action.payload || !action.payload.results) {
-          state.error = "Invalid response from API";
-          return;
-        }
-
         state.loading = false;
         state.list = [...state.list, ...action.payload.results];
         state.currentPage = action.payload.info.page;
@@ -114,17 +119,12 @@ const characterSlice = createSlice({
       })
       .addCase(fetchCharacterById.fulfilled, (state, action) => {
         state.loading = false;
-        state.error = null;
         state.selectedCharacter = action.payload;
       })
       .addCase(fetchCharacterById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to fetch character";
       });
-
-    builder.addCase(fetchEpisodeDetails.fulfilled, (state, action) => {
-      state.episodeDetails = action.payload;
-    });
   },
 });
 
