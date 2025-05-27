@@ -70,7 +70,7 @@ export default function CharacterDetailPage(props: any) {
       <Header />
       <section className="container mx-auto p-6">
         <div className="flex flex-col lg:flex-row items-start gap-10">
-          <div className="flex flex-col items-center justify-center md:items-center w-1/2 ">
+          <div className="flex flex-col items-center justify-center md:items-center md:w-1/2  w-full">
             <h1 className="text-[30px] font-[600] text-cyan-400 mb-4">
               {selectedCharacter.name}
             </h1>
@@ -83,7 +83,7 @@ export default function CharacterDetailPage(props: any) {
             </div>
 
             <h1
-              className="text-[80px] font-extrabold text-transparent stroke-cyan-900/20 absolute left-0 top-1/2 -translate-y-1/2 rotate-90 tracking-wider select-none"
+              className="md:block hidden text-[80px] font-extrabold text-transparent stroke-cyan-900/20 absolute left-[-40px] top-1/2 -translate-y-1/2 rotate-[-90deg] tracking-wider select-none"
               style={{
                 WebkitTextStroke: "1px #13dae553",
               }}>
@@ -91,7 +91,7 @@ export default function CharacterDetailPage(props: any) {
             </h1>
           </div>
 
-          <div className="flex-1 w-1/2">
+          <div className="flex-1 md:w-1/2 w-full">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start ">
                 <Heart size={24} color="#00FF00" className="mt-1" />
@@ -156,15 +156,14 @@ export default function CharacterDetailPage(props: any) {
                   Episodes ({selectedCharacter.episode.length})
                 </p>
                 <div className="flex w-full mx-w-full justify-between">
-                  <div className="overflow-y-auto max-h-[200px] w-full">
-                    <ul className="overflow-y-auto max-h-[200px] w-full epi-scroll">
+                  <div className="w-full">
+                    <ul className="overflow-y-auto max-h-[200px] w-full epi-scroll list-disc pl-6 mt-4">
                       {selectedCharacter.episodeNames?.map((name, index) => (
                         <li key={index} className="text-xl font-bold mb-1">
                           {name}
                         </li>
                       ))}
                     </ul>
-                    
                   </div>
                 </div>
               </div>
