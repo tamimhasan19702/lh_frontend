@@ -1,6 +1,6 @@
 /** @format */
 
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import characterReducer from "@/store/features/characters/characterSlice";
 import episodeReducer from "@/store/features/episodes/episodeSlice";
 import locationReducer from "@/store/features/locations/locationSlice";
@@ -13,7 +13,11 @@ export const store = configureStore({
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export const rootReducer = combineReducers({
+  characters: characterReducer,
+});
+
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
 
 export default store;

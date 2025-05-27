@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchLocations } from "@/store/features/locations/locationSlice";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import LocationCard from "./LocationCard";
+import Link from "next/link";
 
 export default function LocationList() {
   const dispatch = useDispatch();

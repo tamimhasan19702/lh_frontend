@@ -11,9 +11,7 @@ import EpisodeCard from "./EpisodeCard";
 
 export default function EpisodeList() {
   const dispatch = useDispatch();
-  const { list, loading, error, hasNextPage } = useSelector(
-    (state: any) => state.episodes
-  );
+  const { list, loading } = useSelector((state: any) => state.episodes);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

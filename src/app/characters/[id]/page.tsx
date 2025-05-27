@@ -42,12 +42,18 @@ export interface Character {
   episode: string[];
   url: string;
   created: string;
-  episodeNames: string[]; // New field for episode names
+  episodeNames: string[];
 }
 
-export default function CharacterDetailPage(props: any) {
+type Params = {
+  id: string;
+};
+
+export default function CharacterDetailPage(props: {
+  params: Promise<Params>;
+}) {
   const dispatch = useDispatch();
-  const params = React.use(props.params); // Unwrap dynamic route params
+  const params = React.use(props.params);
   const id = parseInt(params.id, 10);
 
   const { selectedCharacter, loading, error } = useSelector(

@@ -21,7 +21,6 @@ export const fetchCharacterById = createAsyncThunk(
         `https://rickandmortyapi.com/api/character/ ${id}`
       );
 
-      // Fetch episode details concurrently
       const episodePromises = response.data.episode.map((url: string) =>
         axios.get(url).then((res) => res.data.name)
       );
@@ -31,7 +30,7 @@ export const fetchCharacterById = createAsyncThunk(
         ...response.data,
         episodeNames,
       };
-    } catch (error: any) {
+    } catch {
       throw new Error("Character not found");
     }
   }
