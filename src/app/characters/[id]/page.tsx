@@ -83,7 +83,7 @@ export default function CharacterDetailPage(props: any) {
             </div>
 
             <h1
-              className="md:block hidden text-[80px] font-extrabold text-transparent stroke-cyan-900/20 absolute left-[-40px] top-1/2 -translate-y-1/2 rotate-[-90deg] tracking-wider select-none"
+              className="md:block h-[500px] hidden text-[60px] font-extrabold text-transparent stroke-cyan-900/20 absolute left-[0px] top-1/2 -translate-y-1/2 rotate-[-90deg] tracking-wider select-none"
               style={{
                 WebkitTextStroke: "1px #13dae553",
               }}>
