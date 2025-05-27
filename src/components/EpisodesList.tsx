@@ -64,7 +64,7 @@ export default function EpisodeList() {
           ))}
 
           {loading && (
-            <p className="text-center flex-none w-full">
+            <p className="text-center flex-none w-full text-white">
               Loading more episodes...
             </p>
           )}

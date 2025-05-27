@@ -66,10 +66,11 @@ export default function CharacterDetailPage(props: {
     }
   }, [dispatch, id]);
 
-  if (loading) return <p className="text-center p-6">Loading character...</p>;
+  if (loading)
+    return <p className="text-center p-6 text-white">Loading character...</p>;
   if (error) return <p className="text-red-500 text-center p-6">{error}</p>;
   if (!selectedCharacter)
-    return <p className="text-center p-6">Character not found</p>;
+    return <p className="text-center p-6 text-white">Character not found</p>;
 
   return (
     <main className="min-h-screen text-white font-sans">
@@ -89,9 +90,9 @@ export default function CharacterDetailPage(props: {
             </div>
 
             <h1
-              className="md:block h-[500px] hidden text-[60px] font-extrabold text-transparent stroke-cyan-900/20 absolute left-[0px] top-1/2 -translate-y-1/2 rotate-[-90deg] tracking-wider select-none"
+              className="md:block h-auto hidden text-[60px] font-extrabold text-transparent stroke-cyan-900/20 relative left-[-300px] top-1/2 -translate-y-1/2 rotate-[-90deg] tracking-wider select-none"
               style={{
-                WebkitTextStroke: "1px #13dae553",
+                WebkitTextStroke: "1px #13dae536",
               }}>
               {selectedCharacter.name}
             </h1>

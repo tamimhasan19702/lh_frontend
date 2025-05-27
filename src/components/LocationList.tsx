@@ -73,7 +73,7 @@ export default function LocationList() {
           ))}
 
           {loading && (
-            <p className="text-center flex-none w-full">
+            <p className="text-center flex-none w-full text-white">
               Loading more locations...
             </p>
           )}

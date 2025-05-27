@@ -82,7 +82,7 @@ export default function CharacterList() {
           ))}
 
           {loading && (
-            <p className="text-center flex-none w-full">
+            <p className="text-center flex-none w-full text-white">
               Loading more characters...
             </p>
           )}
