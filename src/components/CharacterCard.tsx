@@ -14,17 +14,16 @@ interface CharacterCardProps {
 
 export default function CharacterCard({ char }: CharacterCardProps) {
   return (
-    <Link href={`/characters/${char.id}`}>
+    <Link key={char.id} href={`/characters/${char.id}`}>
       <div
-        key={char.id}
-        className="flex-none w-full md:w-60 sm:w-60 bg-[#ffffff15] rounded-[8px] overflow-hidden relative shadow-md transition-transform transform border-none  border-gradient "
+        className="flex-none w-full md:w-80  bg-[#ffffff15] rounded-[8px] overflow-hidden relative shadow-md transition-transform transform border-none  border-gradient "
         style={{
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
-          clipPath: "polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%)",
+          clipPath: "polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%)",
         }}>
         <div className=" border-r-10">
-          <div className="flex flex-col items-start justify-start px-4 pt-4 pb-2">
+          <div className="flex flex-col items-start justify-start px-6 pt-6 pb-2">
             <img
               src={char.image}
               alt={char.name}

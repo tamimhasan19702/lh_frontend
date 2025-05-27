@@ -99,13 +99,12 @@ main {
   display: none;
 }
 
-
 .epi-scroll::-webkit-scrollbar {
-                          background: transparent;
-                          width: 5px;
-                        }
-                        .epi-scroll::-webkit-scrollbar-thumb {
-                          background-color: #ffffff32;
-                          width: 2px;
-                          border-radius: 10px;
-                        }
+  background: transparent;
+  width: 5px;
+}
+.epi-scroll::-webkit-scrollbar-thumb {
+  background-color: #ffffff32;
+  width: 2px;
+  border-radius: 10px;
+}

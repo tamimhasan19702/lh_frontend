@@ -37,7 +37,7 @@ export default function CharacterGrid() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 justify-center items-center">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 justify-center items-center">
         {list.map((char) => (
           <CharacterCard key={char.id} char={{ ...char }} />
         ))}

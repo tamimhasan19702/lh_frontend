@@ -8,7 +8,6 @@ import { fetchCharacters } from "@/store/features/characters/characterSlice";
 import type { AppDispatch } from "@/store";
 import { CharacterState } from "@/store/features/characters/characterSlice";
 import Link from "next/link";
-
 import CharacterCard from "./CharacterCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -18,21 +17,31 @@ export default function CharacterList() {
     (state: { characters: CharacterState }) => state.characters
   );
 
-  // Ref for the scroll container
   const scrollRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null); // Ref for measuring card width
 
-  // Scroll to the left
   const handleScrollLeft = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
+      const cardWidth = getCardWidth();
+      scrollRef.current.scrollBy({ left: -cardWidth, behavior: "smooth" });
     }
   };
 
-  // Scroll to the right
   const handleScrollRight = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
+      const cardWidth = getCardWidth();
+      scrollRef.current.scrollBy({ left: cardWidth, behavior: "smooth" });
     }
+  };
+
+  const getCardWidth = () => {
+    if (cardRef.current) {
+      const style = window.getComputedStyle(cardRef.current);
+      const marginLeft = parseFloat(style.marginLeft || "0");
+      const marginRight = parseFloat(style.marginRight || "0");
+      return cardRef.current.offsetWidth + marginLeft + marginRight;
+    }
+    return 380;
   };
 
   useEffect(() => {
@@ -62,11 +71,14 @@ export default function CharacterList() {
       <div
         ref={scrollRef}
         className="relative overflow-x-auto hide-scrollbar touch-auto">
-        <div
-          className="flex gap-6 p-4"
-          style={{ transition: "transform 0.3s ease-in-out" }}>
-          {list.map((char) => (
-            <CharacterCard key={char.id} char={char} />
+        <div className="flex gap-6 p-4" style={{ scrollBehavior: "smooth" }}>
+          {list.map((char, index) => (
+            <div
+              key={char.id}
+              ref={index === 0 ? cardRef : null}
+              className="flex-none w-full sm:w-64 md:w-80">
+              <CharacterCard char={char} />
+            </div>
           ))}
 
           {loading && (
@@ -78,15 +90,17 @@ export default function CharacterList() {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between mt-4 ">
+      <div className="flex justify-between mt-4">
         <button
           onClick={handleScrollLeft}
-          className="bg-[#ffffff15] hover:bg-[#ffffff2d] text-green-500 px-4 py-2 rounded ">
+          className="bg-[#ffffff15] hover:bg-[#ffffff2d] text-green-500 px-4 py-2 rounded"
+          aria-label="Scroll Left">
           <ChevronLeft className="w-6 h-6 text-white" />
         </button>
         <button
           onClick={handleScrollRight}
-          className="bg-[#ffffff15] hover:bg-[#ffffff2d] text-green-500 px-4 py-2 rounded">
+          className="bg-[#ffffff15] hover:bg-[#ffffff2d] text-green-500 px-4 py-2 rounded"
+          aria-label="Scroll Right">
           <ChevronRight className="w-6 h-6 text-white" />
         </button>
       </div>
