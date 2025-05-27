@@ -4,8 +4,8 @@
 
 A simple Next.js app to explore characters from the Rick and Morty universe using the Rick and Morty API .
 
-![screenshot of app](https://github.com/tamimhasan19702/lh_frontend/screen1.png)
-![screenshot of app](https://github.com/tamimhasan19702/lh_frontend/screen2.png)
+![screenshot of app](https://github.com/tamimhasan19702/lh_frontend/blob/master/screen1.png)
+![screenshot of app](https://github.com/tamimhasan19702/lh_frontend/blob/master/screen2.png)
 
 ## Features
 
