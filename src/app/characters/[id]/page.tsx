@@ -91,7 +91,7 @@ export default function CharacterDetailPage(props: any) {
             </h1>
           </div>
 
-          <div className="flex-1 md:w-1/2 w-full">
+          <div className="flex-1 md:w-1/2 w-full ">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div className="bg-[#ffffff15] rounded-lg p-4 flex flex-col justify-start items-start ">
                 <Heart size={24} color="#00FF00" className="mt-1" />

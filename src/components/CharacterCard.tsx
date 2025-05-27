@@ -2,11 +2,14 @@
 
 "use client";
 
-import { CharacterState } from "@/store/features/characters/characterSlice";
 import Link from "next/link";
 
 interface CharacterCardProps {
-  char: CharacterState;
+  char: {
+    id: number;
+    name: string;
+    image: string;
+  };
 }
 
 export default function CharacterCard({ char }: CharacterCardProps) {
