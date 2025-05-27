@@ -3,16 +3,16 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { fetchLocations } from "@/store/features/locations/locationSlice";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import LocationCard from "./LocationCard";
 import Link from "next/link";
 
 export default function LocationList() {
-  const dispatch = useDispatch();
-  const { list, loading, error, hasNextPage } = useSelector(
-    (state: any) => state.locations
+  const dispatch = useAppDispatch();
+  const { list, loading, error, currentPage } = useAppSelector(
+    (state) => state.locations
   );
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -54,7 +54,7 @@ export default function LocationList() {
         <h2 className="text-[14px] md:text-[20px] font-light text-white md:text-2xl md:mb-0">
           Locations
         </h2>
-        {hasNextPage && !loading && (
+        {currentPage && !loading && (
           <Link
             href="/locations"
             className="border-2 text-[14px] md:text-[17px] border-green-500 text-white px-6 py-2 rounded">

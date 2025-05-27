@@ -65,6 +65,7 @@ export interface Character {
   episode: string[];
   url: string;
   created: string;
+  episodeNames: string[];
 }
 
 export interface CharacterState {

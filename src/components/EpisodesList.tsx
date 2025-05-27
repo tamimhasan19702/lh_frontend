@@ -1,17 +1,16 @@
 /** @format */
 
-// src/components/EpisodeList.tsx
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { fetchEpisodes } from "@/store/features/episodes/episodeSlice";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import EpisodeCard from "./EpisodeCard";
 
 export default function EpisodeList() {
-  const dispatch = useDispatch();
-  const { list, loading } = useSelector((state: any) => state.episodes);
+  const dispatch = useAppDispatch();
+  const { list, loading } = useAppSelector((state) => state.episodes);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,7 +70,7 @@ export default function EpisodeList() {
         </div>
       </div>
 
-      <div className="flex justify-between mt-4 ">
+      <div className="flex justify-between mt-4">
         <button
           onClick={handleScrollLeft}
           className="bg-[#ffffff15] hover:bg-[#ffffff2d] text-green-500 px-4 py-2 rounded">

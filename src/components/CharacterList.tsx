@@ -3,22 +3,19 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { fetchCharacters } from "@/store/features/characters/characterSlice";
-import type { AppDispatch } from "@/store";
-import { CharacterState } from "@/store/features/characters/characterSlice";
-import Link from "next/link";
-import CharacterCard from "./CharacterCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import CharacterCard from "./CharacterCard";
+import Link from "next/link";
 
 export default function CharacterList() {
-  const dispatch = useDispatch<AppDispatch>();
-  const { list, loading, error, hasNextPage } = useSelector(
-    (state: { characters: CharacterState }) => state.characters
+  const dispatch = useAppDispatch();
+  const { list, loading, error, hasNextPage } = useAppSelector(
+    (state) => state.characters
   );
-
   const scrollRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null); // Ref for measuring card width
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const handleScrollLeft = () => {
     if (scrollRef.current) {
