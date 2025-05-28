@@ -29,10 +29,8 @@ interface EpisodeState {
 
 export const fetchEpisodes = createAsyncThunk(
   "episodes/fetchEpisodes",
-  async (page: number = 1) => {
-    const response = await axios.get(
-      `https://rickandmortyapi.com/api/episode?page= ${page}`
-    );
+  async () => {
+    const response = await axios.get(`https://rickandmortyapi.com/api/episode`);
     return response.data;
   }
 );

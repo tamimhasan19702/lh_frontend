@@ -18,7 +18,7 @@ export default function LocationList() {
 
   useEffect(() => {
     if (list.length === 0) {
-      dispatch(fetchLocations(1));
+      dispatch(fetchLocations());
     }
   }, [dispatch, list.length]);
 

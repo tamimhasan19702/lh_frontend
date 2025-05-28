@@ -29,9 +29,9 @@ interface LocationState {
 
 export const fetchLocations = createAsyncThunk(
   "locations/fetchLocations",
-  async (page: number = 1) => {
+  async () => {
     const response = await axios.get(
-      `https://rickandmortyapi.com/api/location?page= ${page}`
+      `https://rickandmortyapi.com/api/location`
     );
     return response.data;
   }

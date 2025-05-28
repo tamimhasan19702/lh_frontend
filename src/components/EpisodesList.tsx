@@ -15,7 +15,7 @@ export default function EpisodeList() {
 
   useEffect(() => {
     if (list.length === 0) {
-      dispatch(fetchEpisodes(1));
+      dispatch(fetchEpisodes());
     }
   }, [dispatch, list.length]);
 
